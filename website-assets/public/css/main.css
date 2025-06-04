@@ -57,12 +57,3 @@ html {
 	scrollbar-color: 
 	#00FFF2 #FFFFFF20;
 }
-
-@media screen and (max-width: 1199px) {
-  [data-framer-name*="responsive"],
-  .framer-full-height {
-    height: 100vh !important; /* Old browsers */
-    height: -webkit-fill-available !important; /* iOS Safari */
-    height: 100dvh !important; /* Modern browsers */
-  }
-}
