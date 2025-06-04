@@ -34,251 +34,26 @@ html {
 	cursor: default;
 }
 
-/* =================
-   UNIVERSAL SCROLLBAR STYLES
-   Support: Chrome, Safari, Edge, Firefox, iOS, Android, Framer Preview
-   ================= */
+/* Scrollbars for Chrome, Safari, Edge */
 
-/* Base styles for all elements */
-* {
-  /* Modern CSS standard for scrollbars (Firefox 64+) */
-  scrollbar-width: thin;
-  scrollbar-color: #00FFF2 #8700AA20;
-}
-
-/* Webkit styles for Chrome, Safari, Edge, modern mobile browsers */
 ::-webkit-scrollbar {
-  width: 6px; /* Vertical scrollbar width */
-  height: 6px; /* Horizontal scrollbar height */
+	width: 6px; /* Scrollbar width */
 }
-
 ::-webkit-scrollbar-track {
-  background: #8700AA20; /* Track color */
-  border-radius: 10px; /* Track border radius */
+	background: #8700AA20; /* Track color */
 }
-
 ::-webkit-scrollbar-thumb { 
-  background: #00FFF2; /* Thumb color */
-  border-radius: 10px; /* Thumb border radius */
-  border: 1px solid transparent; /* Border spacing from edges */
-  background-clip: content-box; /* Background clipping to content */
+	background: #00FFF2; /* Thumb color */
+	border-radius: 10px; /* Thumb border radius */
 }
-
 ::-webkit-scrollbar-thumb:hover { 
-  background: #AF0B55; /* Color on hover */
+	background: #AF0B55; /* Thumb color on hover */
 }
 
-::-webkit-scrollbar-thumb:active { 
-  background: #8B0A47; /* Color on click */
-}
-
-/* Styles for corner element (where scrollbars intersect) */
-::-webkit-scrollbar-corner {
-  background: #8700AA20;
-}
-
-/* =================
-   MOBILE DEVICE SPECIFIC STYLES
-   ================= */
-
-/* iOS Safari specific styles */
-@supports (-webkit-touch-callout: none) {
-  * {
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  }
-  
-  /* Force scrollbar display on iOS */
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 6px;
-    height: 6px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: #00FFF2;
-    border-radius: 10px;
-    border: 1px solid #8700AA20;
-  }
-}
-
-/* Android Chrome specific styles */
-@media screen and (-webkit-min-device-pixel-ratio: 1) {
-  /* Force display on Android */
-  ::-webkit-scrollbar {
-    width: 8px !important; /* Slightly wider for touch device convenience */
-    height: 8px !important;
-  }
-}
-
-/* =================
-   FRAMER PREVIEW STYLES
-   ================= */
-
-/* Specific styles for iframe and preview environment */
-body[data-framer-page],
-.framer-preview,
-[data-framer-component] {
-  /* Ensure scrollbar display in preview */
-  overflow: auto !important;
-}
-
-/* Styles for Framer components */
-[data-framer-component]::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-[data-framer-component]::-webkit-scrollbar-track {
-  background: #8700AA20;
-  border-radius: 10px;
-}
-
-[data-framer-component]::-webkit-scrollbar-thumb {
-  background: #00FFF2;
-  border-radius: 10px;
-}
-
-[data-framer-component]::-webkit-scrollbar-thumb:hover {
-  background: #AF0B55;
-}
-
-/* =================
-   FIREFOX SPECIFIC STYLES
-   ================= */
-
-/* Extended styles for Firefox */
+/* Firefox specific */
 @-moz-document url-prefix() {
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: #00FFF2 #8700AA20;
-  }
-  
-  /* Additional styles for better compatibility */
-  html, body {
-    scrollbar-width: thin;
-    scrollbar-color: #00FFF2 #8700AA20;
-  }
-}
-
-/* =================
-   RESPONSIVE STYLES FOR DIFFERENT SCREEN SIZES
-   ================= */
-
-/* Tablets */
-@media (max-width: 1024px) and (min-width: 768px) {
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-}
-
-/* Mobile devices */
-@media (max-width: 767px) {
-  ::-webkit-scrollbar {
-    width: 4px; /* Thinner on mobile */
-    height: 4px;
-  }
-  
-  /* Alternative approach for mobile - hide scrollbars */
-  .mobile-hidden-scrollbar {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-  
-  .mobile-hidden-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-}
-
-/* =================
-   DARK THEME
-   ================= */
-
-/* Automatic dark theme detection */
-@media (prefers-color-scheme: dark) {
-  * {
-    scrollbar-color: #00FFF2 #2A0A3A40; /* Darker track for dark theme */
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: #2A0A3A40;
-  }
-}
-
-/* Class for forced dark theme */
-.dark-theme {
-  scrollbar-color: #00FFF2 #2A0A3A40;
-}
-
-.dark-theme ::-webkit-scrollbar-track {
-  background: #2A0A3A40;
-}
-
-/* =================
-   FRAMER UTILITIES
-   ================= */
-
-/* Class for completely hiding scrollbars */
-.no-scrollbar {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
-
-/* Class for thin scrollbars */
-.thin-scrollbar::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-/* Class for thick scrollbars */
-.thick-scrollbar::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-/* =================
-   ANIMATIONS AND TRANSITIONS
-   ================= */
-
-/* Smooth transitions for scrollbars */
-::-webkit-scrollbar-thumb {
-  transition: background-color 0.2s ease;
-}
-
-/* Scrollbar appear animation on container hover */
-.hover-scrollbar {
-  overflow: hidden;
-}
-
-.hover-scrollbar:hover {
-  overflow: auto;
-}
-
-.hover-scrollbar:hover::-webkit-scrollbar-thumb {
-  background: #00FFF2;
-}
-
-/* =================
-   FORCED DISPLAY
-   ================= */
-
-/* For cases when you need to force scrollbar display */
-.force-scrollbar {
-  overflow: scroll !important;
-}
-
-/* Force display of vertical scrollbar only */
-.force-scrollbar-y {
-  overflow-y: scroll !important;
-  overflow-x: hidden !important;
-}
-
-/* Force display of horizontal scrollbar only */
-.force-scrollbar-x {
-  overflow-x: scroll !important;
-  overflow-y: hidden !important;
+* {
+	scrollbar-width: thin;
+	scrollbar-color: 
+	#00FFF2 #FFFFFF20;
 }
