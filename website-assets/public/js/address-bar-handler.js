@@ -1,6 +1,6 @@
 /**
  * Address Bar Position Detector & Bottom Offset Handler
- * Automatically applies fixes to elements with data-framer-name="responsive"
+ * Automatically applies fixes to elements with class="wkd-phone" or class="wkd-tablet"
  * Works only on devices with width < 1199px (tablets and mobile)
  */
 class AddressBarHandler {
@@ -15,7 +15,7 @@ class AddressBarHandler {
     this.maxWidth = 1199; // Maximum width for script operation
     
     // Target selector for automatic handling
-    this.targetSelector = '[data-framer-name="scroll-block"]';
+    this.targetSelector = '.wkd-phone, .wkd-tablet';
     this.processedElements = new Set(); // Track processed elements
     this.mutationObserver = null;
     
@@ -62,14 +62,14 @@ class AddressBarHandler {
             if (node.nodeType === Node.ELEMENT_NODE) {
               // Check if added node matches our selector
               if (node.matches && node.matches(this.targetSelector)) {
-                this.log('New responsive element detected:', node);
+                this.log('New wkd-phone/wkd-tablet element detected:', node);
                 foundNewElements = true;
               }
               
               // Check if added node contains matching elements
               const childElements = node.querySelectorAll && node.querySelectorAll(this.targetSelector);
               if (childElements && childElements.length > 0) {
-                this.log('New responsive elements found in added content:', childElements.length);
+                this.log('New wkd-phone/wkd-tablet elements found in added content:', childElements.length);
                 foundNewElements = true;
               }
             }
@@ -78,15 +78,15 @@ class AddressBarHandler {
         
         // Watch for attribute changes on existing elements
         if (mutation.type === 'attributes' && 
-            mutation.attributeName === 'data-framer-name' &&
-            mutation.target.getAttribute('data-framer-name') === 'responsive') {
-          this.log('Element became responsive:', mutation.target);
+            mutation.attributeName === 'class' &&
+            (mutation.target.classList.contains('wkd-phone') || mutation.target.classList.contains('wkd-tablet'))) {
+          this.log('Element became wkd-phone/wkd-tablet:', mutation.target);
           foundNewElements = true;
         }
       });
       
       if (foundNewElements && this.isActive) {
-        this.log('Processing new responsive elements...');
+        this.log('Processing new wkd-phone/wkd-tablet elements...');
         this.findAndProcessElements();
       }
     });
@@ -96,17 +96,17 @@ class AddressBarHandler {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['data-framer-name']
+      attributeFilter: ['class']
     });
     
-    this.log('MutationObserver started - watching for new responsive elements');
+    this.log('MutationObserver started - watching for new wkd-phone/wkd-tablet elements');
   }
   
   findAndProcessElements() {
     if (!this.isActive) return;
     
     const elements = document.querySelectorAll(this.targetSelector);
-    this.log(`Found ${elements.length} elements with data-framer-name="responsive"`);
+    this.log(`Found ${elements.length} elements with class .wkd-phone or .wkd-tablet`);
     
     elements.forEach((element, index) => {
       this.processElement(element, index);
@@ -115,7 +115,7 @@ class AddressBarHandler {
   
   processElement(element, index) {
     // Create unique identifier for this element
-    const elementId = element.id || `responsive-element-${index}`;
+    const elementId = element.id || `wkd-responsive-element-${index}`;
     
     // Skip if already processed
     if (this.processedElements.has(elementId)) {
@@ -185,7 +185,7 @@ class AddressBarHandler {
     const elements = document.querySelectorAll(this.targetSelector);
     const bottomOffset = this.calculateBottomOffset();
     
-    this.log(`Updating ${elements.length} responsive elements with offset: ${bottomOffset}vh`);
+    this.log(`Updating ${elements.length} wkd-phone/wkd-tablet elements with offset: ${bottomOffset}vh`);
     
     elements.forEach((element) => {
       if (this.position === 'bottom' && bottomOffset > 0) {
