@@ -1,0 +1,59 @@
+html, body {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+html {
+	background-color: black;
+	cursor: none;
+}
+
+@media (max-width: 1199px) {
+	html {
+		cursor: auto;
+	}
+}
+
+::selection {
+	background: #AF0B55;
+	color: #fff;
+}
+
+/* CookieYes: Cursor Transition */
+.cky-overlay,
+.cky-hide,
+.cky-btn-revisit-wrapper,
+.cky-revisit-bottom-right,
+.cky-btn-revisit,
+.cky-consent-container,
+.cky-box-bottom-right,
+.cky-consent-bar,
+.cky-modal,
+.cky-sidebar-right {
+	cursor: default;
+}
+
+/* Scrollbars for Chrome, Safari, Edge */
+
+::-webkit-scrollbar {
+	width: 6px; /* Scrollbar width */
+}
+::-webkit-scrollbar-track {
+	background: #8700AA20; /* Track color */
+}
+::-webkit-scrollbar-thumb { 
+	background: #00FFF2; /* Thumb color */
+	border-radius: 10px; /* Thumb border radius */
+}
+::-webkit-scrollbar-thumb:hover { 
+	background: #AF0B55; /* Thumb color on hover */
+}
+
+/* Firefox specific */
+@-moz-document url-prefix() {
+* {
+	scrollbar-width: thin;
+	scrollbar-color: 
+	#00FFF2 #FFFFFF20;
+}
