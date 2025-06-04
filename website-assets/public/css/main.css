@@ -60,12 +60,9 @@ html {
 
 @media screen and (max-width: 1199px) {
   [data-framer-name*="responsive"],
-  .framer-full-height,
-  div[data-framer-name*="responsive"],
-  .framer-full-height div {
-    height: 100vh !important;
-    height: 100dvh !important;
-    min-height: 100vh !important; 
-    min-height: 100dvh !important;
+  .framer-full-height {
+    height: 100vh !important; /* Old browsers */
+    height: -webkit-fill-available !important; /* iOS Safari */
+    height: 100dvh !important; /* Modern browsers */
   }
 }
