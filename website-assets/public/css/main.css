@@ -58,51 +58,14 @@ html {
 	#00FFF2 #FFFFFF20;
 }
 
-/**
- * RESPONSIVE VIEWPORT HEIGHT FIX FOR MOBILE DEVICES
- * 
- * This media query targets tablets and mobile devices (screens smaller than 1199px)
- * to fix the common viewport height issue on mobile browsers where the address bar
- * dynamically appears/disappears, causing layout shifts and incorrect height calculations.
- * 
- * TARGET DEVICES:
- * - iPads and tablets (1024px - 1198px)
- * - Mobile phones in landscape (768px - 1198px) 
- * - Mobile phones in portrait (320px - 767px)
- * 
- * SELECTORS:
- * - [data-framer-name*="responsive"]: Targets any Framer component with "responsive" 
- *   in its data-framer-name attribute (partial match using *= operator)
- * - .framer-full-height: Targets elements with this specific class
- * 
- * HEIGHT PROPERTIES EXPLANATION:
- * - height: 100vh !important: FALLBACK for older browsers that don't support dvh
- *   Uses traditional viewport height (can cause issues with mobile address bars)
- * 
- * - height: 100dvh !important: MODERN SOLUTION using Dynamic Viewport Height
- *   Automatically adjusts to account for browser UI elements (address bar, toolbars)
- *   Provides smooth transitions when address bar shows/hides during scroll
- * 
- * BROWSER SUPPORT FOR DVH:
- * ✅ Safari 15.4+ (iOS 15.4+)
- * ✅ Chrome 108+ (Android 12+)
- * ✅ Firefox 110+
- * ⚠️  Older browsers will use the 100vh fallback
- * 
- * WHY !important:
- * Used to override existing Framer-generated styles that might have high specificity
- * or inline styles. Ensures this mobile-specific fix takes precedence.
- * 
- * RESULT:
- * - Eliminates layout jumps on mobile when scrolling
- * - Provides consistent full-height behavior across all mobile browsers
- * - Maintains compatibility with older devices
- */
-
 @media screen and (max-width: 1199px) {
   [data-framer-name*="responsive"],
-  .framer-full-height {
-    height: 100vh !important; /* Fallback */
-    height: 100dvh !important; /* Dynamic */
+  .framer-full-height,
+  div[data-framer-name*="responsive"],
+  .framer-full-height div {
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important; 
+    min-height: 100dvh !important;
   }
 }
