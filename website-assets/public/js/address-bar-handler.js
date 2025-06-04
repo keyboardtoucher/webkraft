@@ -1,5 +1,6 @@
 /**
  * Address Bar Position Detector & Bottom Offset Handler
+ * Automatically applies fixes to elements with data-framer-name="responsive"
  * Works only on devices with width < 1199px (tablets and mobile)
  */
 class AddressBarHandler {
@@ -12,6 +13,11 @@ class AddressBarHandler {
     this.isDetecting = false;
     this.isActive = false; // Script activity flag
     this.maxWidth = 1199; // Maximum width for script operation
+    
+    // Target selector for automatic handling
+    this.targetSelector = '[data-framer-name="responsive"]';
+    this.processedElements = new Set(); // Track processed elements
+    this.mutationObserver = null;
     
     // Prefixes for dynamic elements
     this.cssPrefix = 'wkd-addbar-handler';
@@ -33,6 +39,7 @@ class AddressBarHandler {
     this.detectBrowser();
     this.detectPosition();
     this.setupEventListeners();
+    this.setupMutationObserver();
     this.log('Initialized', { 
       browser: this.browser, 
       position: this.position,
@@ -42,6 +49,172 @@ class AddressBarHandler {
   
   shouldBeActive() {
     return window.innerWidth < this.maxWidth;
+  }
+  
+  setupMutationObserver() {
+    // Watch for new elements being added to DOM
+    this.mutationObserver = new MutationObserver((mutations) => {
+      let foundNewElements = false;
+      
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              // Check if added node matches our selector
+              if (node.matches && node.matches(this.targetSelector)) {
+                this.log('New responsive element detected:', node);
+                foundNewElements = true;
+              }
+              
+              // Check if added node contains matching elements
+              const childElements = node.querySelectorAll && node.querySelectorAll(this.targetSelector);
+              if (childElements && childElements.length > 0) {
+                this.log('New responsive elements found in added content:', childElements.length);
+                foundNewElements = true;
+              }
+            }
+          });
+        }
+        
+        // Watch for attribute changes on existing elements
+        if (mutation.type === 'attributes' && 
+            mutation.attributeName === 'data-framer-name' &&
+            mutation.target.getAttribute('data-framer-name') === 'responsive') {
+          this.log('Element became responsive:', mutation.target);
+          foundNewElements = true;
+        }
+      });
+      
+      if (foundNewElements && this.isActive) {
+        this.log('Processing new responsive elements...');
+        this.findAndProcessElements();
+      }
+    });
+    
+    // Start observing
+    this.mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['data-framer-name']
+    });
+    
+    this.log('MutationObserver started - watching for new responsive elements');
+  }
+  
+  findAndProcessElements() {
+    if (!this.isActive) return;
+    
+    const elements = document.querySelectorAll(this.targetSelector);
+    this.log(`Found ${elements.length} elements with data-framer-name="responsive"`);
+    
+    elements.forEach((element, index) => {
+      this.processElement(element, index);
+    });
+  }
+  
+  processElement(element, index) {
+    // Create unique identifier for this element
+    const elementId = element.id || `responsive-element-${index}`;
+    
+    // Skip if already processed
+    if (this.processedElements.has(elementId)) {
+      return;
+    }
+    
+    this.log(`Processing element #${index}:`, element);
+    
+    // Add our identifier
+    if (!element.id) {
+      element.id = elementId;
+    }
+    
+    // Add our classes for styling
+    element.classList.add(`${this.cssPrefix}-responsive`);
+    element.classList.add(`${this.cssPrefix}-auto-processed`);
+    
+    // Set data attributes
+    element.setAttribute(`${this.dataAttrPrefix}-processed`, 'true');
+    element.setAttribute(`${this.dataAttrPrefix}-element-id`, elementId);
+    
+    // Apply direct styles if address bar is on bottom
+    if (this.position === 'bottom') {
+      const bottomOffset = this.calculateBottomOffset();
+      if (bottomOffset > 0) {
+        this.applyElementStyles(element, bottomOffset);
+      }
+    }
+    
+    // Mark as processed
+    this.processedElements.add(elementId);
+    
+    this.log(`Element processed: ${elementId}`);
+  }
+  
+  applyElementStyles(element, offsetVh) {
+    // Apply direct styles to the element
+    const currentPaddingBottom = window.getComputedStyle(element).paddingBottom;
+    const currentPaddingBottomValue = parseInt(currentPaddingBottom) || 0;
+    
+    // Store original padding for restoration
+    if (!element.hasAttribute(`${this.dataAttrPrefix}-original-padding`)) {
+      element.setAttribute(`${this.dataAttrPrefix}-original-padding`, currentPaddingBottom);
+    }
+    
+    // Apply new padding
+    element.style.paddingBottom = `calc(${currentPaddingBottom} + ${offsetVh}vh)`;
+    
+    this.log(`Applied ${offsetVh}vh padding to element:`, element);
+  }
+  
+  removeElementStyles(element) {
+    // Restore original padding
+    const originalPadding = element.getAttribute(`${this.dataAttrPrefix}-original-padding`);
+    if (originalPadding) {
+      element.style.paddingBottom = originalPadding;
+    } else {
+      element.style.paddingBottom = '';
+    }
+    
+    this.log('Removed styles from element:', element);
+  }
+  
+  updateAllElements() {
+    if (!this.isActive) return;
+    
+    const elements = document.querySelectorAll(this.targetSelector);
+    const bottomOffset = this.calculateBottomOffset();
+    
+    this.log(`Updating ${elements.length} responsive elements with offset: ${bottomOffset}vh`);
+    
+    elements.forEach((element) => {
+      if (this.position === 'bottom' && bottomOffset > 0) {
+        this.applyElementStyles(element, bottomOffset);
+      } else {
+        this.removeElementStyles(element);
+      }
+    });
+  }
+  
+  clearAllElementStyles() {
+    this.log('Clearing all element styles...');
+    
+    const elements = document.querySelectorAll(this.targetSelector);
+    elements.forEach((element) => {
+      this.removeElementStyles(element);
+      
+      // Remove our classes and attributes
+      element.classList.remove(`${this.cssPrefix}-responsive`);
+      element.classList.remove(`${this.cssPrefix}-auto-processed`);
+      element.removeAttribute(`${this.dataAttrPrefix}-processed`);
+      element.removeAttribute(`${this.dataAttrPrefix}-element-id`);
+      element.removeAttribute(`${this.dataAttrPrefix}-original-padding`);
+    });
+    
+    // Clear processed elements set
+    this.processedElements.clear();
+    
+    this.log('All element styles cleared');
   }
   
   checkScreenWidth() {
@@ -58,6 +231,7 @@ class AddressBarHandler {
       this.log('Screen width >= 1199px, deactivating script');
       this.isActive = false;
       this.clearStyles();
+      this.clearAllElementStyles();
     }
   }
   
@@ -245,7 +419,10 @@ class AddressBarHandler {
     document.documentElement.setAttribute(`${this.dataAttrPrefix}-position`, this.position);
     document.documentElement.setAttribute(`${this.dataAttrPrefix}-screen-width`, 'mobile');
     
-    // Apply styles for elements with bottom address bar
+    // Process all responsive elements
+    this.findAndProcessElements();
+    
+    // Apply legacy styles for compatibility
     if (this.position === 'bottom' && bottomOffset > 0) {
       this.addBottomPadding(bottomOffset);
     }
@@ -363,6 +540,7 @@ class AddressBarHandler {
       resizeTimeout = setTimeout(() => {
         this.checkScreenWidth(); // Check width on every resize
         if (this.isActive && !this.isDetecting) {
+          this.updateAllElements();
           this.applyStyles();
         }
       }, 200);
@@ -385,7 +563,10 @@ class AddressBarHandler {
       bottomOffsetVh: this.calculateBottomOffset(),
       cssPrefix: this.cssPrefix,
       cssVarPrefix: this.cssVarPrefix,
-      dataAttrPrefix: this.dataAttrPrefix
+      dataAttrPrefix: this.dataAttrPrefix,
+      targetSelector: this.targetSelector,
+      elementsFound: document.querySelectorAll(this.targetSelector).length,
+      elementsProcessed: this.processedElements.size
     };
   }
   
@@ -396,7 +577,14 @@ class AddressBarHandler {
     }
     
     this.log('Force redetecting...');
+    this.processedElements.clear();
     this.detectPosition();
+  }
+  
+  refreshElements() {
+    this.log('Refreshing all elements...');
+    this.processedElements.clear();
+    this.findAndProcessElements();
   }
   
   // Method to change maximum width
@@ -430,8 +618,24 @@ class AddressBarHandler {
       fullHeight: `${this.cssPrefix}-full-height`,
       bottomOffset: `${this.cssPrefix}-bottom-offset`,
       fullscreen: `${this.cssPrefix}-fullscreen`,
-      mobileFullscreen: `${this.cssPrefix}-mobile-fullscreen`
+      mobileFullscreen: `${this.cssPrefix}-mobile-fullscreen`,
+      responsive: `${this.cssPrefix}-responsive`,
+      autoProcessed: `${this.cssPrefix}-auto-processed`
     };
+  }
+  
+  // Cleanup method
+  destroy() {
+    this.log('Destroying handler...');
+    
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+    }
+    
+    this.clearAllElementStyles();
+    this.clearStyles();
+    
+    this.log('Handler destroyed');
   }
 }
 
@@ -442,6 +646,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Backward compatibility (optional)
   window.addressBarHandler = window.wkdAddressBarHandler;
 });
+
+// Also try immediate execution if DOM already loaded
+if (document.readyState === 'loading') {
+  console.log('[WKD-AddressBarHandler] DOM still loading, waiting for DOMContentLoaded...');
+} else {
+  console.log('[WKD-AddressBarHandler] DOM already loaded, starting immediately...');
+  if (!window.wkdAddressBarHandler) {
+    window.wkdAddressBarHandler = new AddressBarHandler();
+    window.addressBarHandler = window.wkdAddressBarHandler;
+  }
+}
 
 // Export for usage
 if (typeof module !== 'undefined' && module.exports) {
