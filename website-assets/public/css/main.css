@@ -57,3 +57,72 @@ html {
 	scrollbar-color: 
 	#00FFF2 #FFFFFF20;
 }
+
+/* WkdTxtcomp Component Styles - Only for desktop (>1199px) */
+@media (min-width: 1200px) {
+    .wkd-txtcomp-root {
+        /* Base styles for text component */
+    }
+
+    .wkd-txtcomp-link {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        transition: color 0.2s;
+        background: transparent;
+        border-radius: 0;
+        transition: background 0.2s, color 0.2s, border-radius 0.2s;
+        white-space: pre-wrap;
+        position: relative;
+    }   
+
+    .wkd-txtcomp-link::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        background: transparent;
+        inset: 0;
+        pointer-events: none;
+        transition: background 0.2s, left 0.2s, right 0.2s, top 0.2s, bottom 0.2s, border-radius 0.2s;
+        /* Dynamic properties will be set via CSS variables */
+        border-radius: var(--link-hover-radius, 8px);
+    }
+
+    .wkd-txtcomp-link:hover,
+    .wkd-txtcomp-link:focus {
+        text-decoration: none !important;
+    }
+
+    .wkd-txtcomp-link:hover {
+        /* Dynamic color will be set via CSS variable */
+        color: var(--link-hover-color, #000000) !important;
+    }
+
+    .wkd-txtcomp-link:hover::before {
+        /* Dynamic background and padding will be set via CSS variables */
+        background: var(--link-hover-bg, #eceaff) !important;
+        left: calc(-1 * var(--link-bg-padding-x, 10px));
+        right: calc(-1 * var(--link-bg-padding-x, 10px));
+        top: calc(-1 * var(--link-bg-padding-y, 4px));
+        bottom: calc(-1 * var(--link-bg-padding-y, 4px));
+    }
+
+    .wkd-txtcomp-gap {
+        display: block;
+        height: 0;
+        margin: 18px 0 0 0;
+        visibility: hidden;
+    }
+
+    .wkd-txtcomp-text {
+        white-space: pre-wrap;
+    }
+
+    .wkd-txtcomp-ctext {
+        white-space: pre-wrap;
+    }
+
+    .wkd-txtcomp-copy {
+        white-space: pre-wrap;
+    }
+}
