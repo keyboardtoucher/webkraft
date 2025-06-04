@@ -57,23 +57,3 @@ html {
 	scrollbar-color: 
 	#00FFF2 #FFFFFF20;
 }
-
-/* MOBILE FORCED STYLES - All devices below 1200px */
-@media (max-width: 1199px) {
-    .wkd-txtcomp-link,
-    .wkd-txtcomp-link:link,
-    .wkd-txtcomp-link:visited,
-    .wkd-txtcomp-link:hover,
-    .wkd-txtcomp-link:active,
-    .wkd-txtcomp-link:focus {
-        color: #AF0B55 !important;
-        text-decoration: underline !important;
-        background: transparent !important;
-        border-radius: 0 !important;
-        transition: none !important;
-    }
-
-    .wkd-txtcomp-link::before {
-        display: none !important;
-    }
-}
