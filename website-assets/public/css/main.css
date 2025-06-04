@@ -58,62 +58,22 @@ html {
 	#00FFF2 #FFFFFF20;
 }
 
-/* WkdTxtcomp Component Styles */
-
-/* Base styles - apply to all screen sizes */
-.wkd-txtcomp-root {
-    /* Base styles for text component */
-}
-
-.wkd-txtcomp-link {
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-    background: transparent;
-    border-radius: 0;
-    white-space: pre-wrap;
-}
-
-.wkd-txtcomp-gap {
-    display: block;
-    height: 0;
-    margin: 18px 0 0 0;
-    visibility: hidden;
-}
-
-.wkd-txtcomp-text {
-    white-space: pre-wrap;
-}
-
-.wkd-txtcomp-ctext {
-    white-space: pre-wrap;
-}
-
-.wkd-txtcomp-copy {
-    white-space: pre-wrap;
-}
-
-/* Interactive styles - only for desktop (>1199px) */
-@media (min-width: 1200px) {
-    .wkd-txtcomp-link {
-        transition: color 0.2s, background 0.2s, border-radius 0.2s;
-    }   
+/* MOBILE FORCED STYLES - All devices below 1200px */
+@media (max-width: 1199px) {
+    .wkd-txtcomp-link,
+    .wkd-txtcomp-link:link,
+    .wkd-txtcomp-link:visited,
+    .wkd-txtcomp-link:hover,
+    .wkd-txtcomp-link:active,
+    .wkd-txtcomp-link:focus {
+        color: #AF0B55 !important;
+        text-decoration: underline !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        transition: none !important;
+    }
 
     .wkd-txtcomp-link::before {
-        content: "";
-        position: absolute;
-        z-index: -1;
-        background: transparent;
-        inset: 0;
-        pointer-events: none;
-        transition: background 0.2s, left 0.2s, right 0.2s, top 0.2s, bottom 0.2s, border-radius 0.2s;
-        border-radius: 8px;
+        display: none !important;
     }
-
-    .wkd-txtcomp-link:hover,
-    .wkd-txtcomp-link:focus {
-        text-decoration: none !important;
-    }
-
-    /* Dynamic hover styles will be injected via JavaScript */
 }
