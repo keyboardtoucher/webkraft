@@ -15,7 +15,7 @@ class AddressBarHandler {
     this.maxWidth = 1199; // Maximum width for script operation
     
     // Target selector for automatic handling
-    this.targetSelector = '[data-framer-name="responsive"]';
+    this.targetSelector = '[data-framer-name="scroll-block"]';
     this.processedElements = new Set(); // Track processed elements
     this.mutationObserver = null;
     
