@@ -107,7 +107,7 @@ html {
         inset: 0;
         pointer-events: none;
         transition: background 0.2s, left 0.2s, right 0.2s, top 0.2s, bottom 0.2s, border-radius 0.2s;
-        border-radius: var(--link-hover-radius, 8px);
+        border-radius: 8px;
     }
 
     .wkd-txtcomp-link:hover,
@@ -115,15 +115,5 @@ html {
         text-decoration: none !important;
     }
 
-    .wkd-txtcomp-link:hover {
-        color: var(--link-hover-color, #000000) !important;
-    }
-
-    .wkd-txtcomp-link:hover::before {
-        background: var(--link-hover-bg, #eceaff) !important;
-        left: calc(-1 * var(--link-bg-padding-x, 10px));
-        right: calc(-1 * var(--link-bg-padding-x, 10px));
-        top: calc(-1 * var(--link-bg-padding-y, 4px));
-        bottom: calc(-1 * var(--link-bg-padding-y, 4px));
-    }
+    /* Dynamic hover styles will be injected via JavaScript */
 }
