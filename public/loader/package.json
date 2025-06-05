@@ -2,15 +2,21 @@
   "name": "wkd-loader",
   "version": "1.0.0",
   "description": "WebKraft Loader",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "14.0.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.0.4"
   },
   "engines": {
     "node": ">=18.0.0"

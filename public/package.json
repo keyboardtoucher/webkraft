@@ -1,0 +1,14 @@
+{
+  "name": "webkraft-project",
+  "version": "1.0.0",
+  "description": "WebKraft project with loader",
+  "private": true,
+  "workspaces": [
+    "loader"
+  ],
+  "scripts": {
+    "dev": "cd loader && npm run dev",
+    "build": "cd loader && npm run build",
+    "start": "cd loader && npm run start"
+  }
+}

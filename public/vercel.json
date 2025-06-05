@@ -1,0 +1,40 @@
+{
+  "builds": [
+    {
+      "src": "loader/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/css/(.*)",
+      "dest": "/public/css/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "/fonts/(.*)",
+      "dest": "/public/fonts/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/public/js/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=86400"
+      }
+    },
+    {
+      "src": "/app",
+      "dest": "https://webkraft.dev",
+      "status": 302
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/loader/$1"
+    }
+  ]
+}
