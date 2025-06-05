@@ -1,4 +1,4 @@
-// pages/loader.js
+// loader.js
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 

@@ -1,40 +1,51 @@
 {
-  "builds": [
-    {
-      "src": "loader/package.json",
-      "use": "@vercel/next"
-    }
-  ],
+  "public": true,
+  "cleanUrls": false,
+  "trailingSlash": false,
   "routes": [
     {
       "src": "/css/(.*)",
       "dest": "/public/css/$1",
       "headers": {
-        "Cache-Control": "public, max-age=86400"
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Content-Type": "text/css"
       }
     },
     {
       "src": "/fonts/(.*)",
       "dest": "/public/fonts/$1",
       "headers": {
-        "Cache-Control": "public, max-age=31536000"
+        "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
       "src": "/js/(.*)",
       "dest": "/public/js/$1",
       "headers": {
-        "Cache-Control": "public, max-age=86400"
+        "Cache-Control": "public, max-age=86400, s-maxage=86400",
+        "Content-Type": "application/javascript"
       }
     },
     {
-      "src": "/app",
-      "dest": "https://webkraft.dev",
-      "status": 302
+      "src": "/files/(.*)",
+      "dest": "/public/files/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
-      "src": "/(.*)",
-      "dest": "/loader/$1"
+      "src": "/images/(.*)",
+      "dest": "/public/images/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "src": "/videos/(.*)",
+      "dest": "/public/videos/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
     }
   ]
 }
