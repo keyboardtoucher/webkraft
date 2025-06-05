@@ -6,10 +6,6 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=86400, s-maxage=86400"
-        },
-        {
-          "key": "Content-Type",
-          "value": "text/css"
         }
       ]
     },
@@ -28,6 +24,16 @@
       "source": "/app",
       "destination": "https://webkraft.dev",
       "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/css/(.*)",
+      "destination": "../public/css/$1"
+    },
+    {
+      "source": "/fonts/(.*)",
+      "destination": "../public/fonts/$1"
     }
   ]
 }
