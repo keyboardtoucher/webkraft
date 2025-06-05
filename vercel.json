@@ -29,19 +29,5 @@
       "destination": "https://webkraft.dev",
       "permanent": false
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/css/(.*)",
-      "destination": "/wkd-website/public/css/$1"
-    },
-    {
-      "source": "/fonts/(.*)",
-      "destination": "/wkd-website/public/fonts/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/wkd-website/$1"
-    }
   ]
 }
