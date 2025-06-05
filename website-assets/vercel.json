@@ -1,37 +1,37 @@
 {
   "public": true,
-  "buildCommand": "cd website-assets && npm run build",
-  "outputDirectory": "website-assets/.next",
-  "installCommand": "cd website-assets && npm install",
-  "headers": [
+  "builds": [
     {
-      "source": "/css/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=86400, s-maxage=86400"
-        },
-        {
-          "key": "Content-Type",
-          "value": "text/css"
-        }
-      ]
-    },
-    {
-      "source": "/fonts/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "src": "website-assets/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "distDir": ".next"
+      }
     }
   ],
   "routes": [
     {
+      "src": "/css/(.*)",
+      "dest": "/website-assets/public/css/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=86400, s-maxage=86400"
+      }
+    },
+    {
+      "src": "/fonts/(.*)", 
+      "dest": "/website-assets/public/fonts/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
       "src": "/app",
-      "dest": "https://webkraft.dev", 
+      "dest": "https://webkraft.dev",
       "status": 302
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/website-assets/$1"
     }
   ]
 }
