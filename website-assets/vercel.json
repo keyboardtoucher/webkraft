@@ -1,5 +1,8 @@
 {
   "public": true,
+  "buildCommand": "cd website-assets && npm run build",
+  "outputDirectory": "website-assets/.next",
+  "installCommand": "cd website-assets && npm install",
   "headers": [
     {
       "source": "/css/(.*)",
