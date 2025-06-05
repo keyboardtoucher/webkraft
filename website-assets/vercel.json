@@ -23,5 +23,12 @@
         }
       ]
     }
+  ],
+  "routes": [
+    {
+      "src": "/app",
+      "dest": "https://webkraft.dev", 
+      "status": 302
+    }
   ]
 }
