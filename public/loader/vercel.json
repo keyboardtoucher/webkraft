@@ -1,9 +1,0 @@
-{
-  "redirects": [
-    {
-      "source": "/app",
-      "destination": "https://webkraft.dev",
-      "permanent": false
-    }
-  ]
-}

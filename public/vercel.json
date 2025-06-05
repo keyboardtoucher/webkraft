@@ -1,51 +1,47 @@
 {
-  "public": true,
   "cleanUrls": false,
   "trailingSlash": false,
-  "routes": [
+  "rewrites": [
+    { "source": "/", "destination": "/go.html" }
+  ],
+  "headers": [
     {
-      "src": "/css/(.*)",
-      "dest": "/public/css/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=86400, s-maxage=86400",
-        "Content-Type": "text/css"
-      }
+      "source": "/css/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" },
+        { "key": "Content-Type", "value": "text/css" }
+      ]
     },
     {
-      "src": "/fonts/(.*)",
-      "dest": "/public/fonts/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "source": "/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     },
     {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=86400, s-maxage=86400",
-        "Content-Type": "application/javascript"
-      }
+      "source": "/js/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, s-maxage=86400" },
+        { "key": "Content-Type", "value": "application/javascript" }
+      ]
     },
     {
-      "src": "/files/(.*)",
-      "dest": "/public/files/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=3600"
-      }
+      "source": "/files/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
     },
     {
-      "src": "/images/(.*)",
-      "dest": "/public/images/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     },
     {
-      "src": "/videos/(.*)",
-      "dest": "/public/videos/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=31536000, immutable"
-      }
+      "source": "/videos/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
     }
   ]
 }
